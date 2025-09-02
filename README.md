@@ -89,7 +89,7 @@ _(Instruções de execução serão adicionadas conforme o desenvolvimento progr
 
 ### 🛠️ Tecnologias Utilizadas
 
-_(Instruções de execução serão adicionadas conforme o desenvolvimento progride)_
+_(As tecnologias utilizadas serão adicionadas conforme o desenvolvimento progride)_
 
 ### 👥 Equipe - Equipe 8
 
