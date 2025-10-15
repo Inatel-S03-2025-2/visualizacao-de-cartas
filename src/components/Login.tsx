@@ -38,8 +38,8 @@ export default function Login({ onLogin }: LoginProps) {
 
       <div className="login-card">
         <div className="login-header">
-          <h1>Pokemon Card Viewer</h1>
-          <p>Entre para visualizar suas cartas Pokemon favoritas</p>
+          <h1>Visualização de Cartas</h1>
+          <p>Entre para visualizar suas cartas Pokemon</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
