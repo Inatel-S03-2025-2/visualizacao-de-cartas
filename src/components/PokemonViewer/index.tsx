@@ -1,8 +1,6 @@
-import type { Pokemon } from "@/types/pokemon";
 import styles from "./styles.module.css";
 
 export function PokemonViewer() {
-
   const currentPokemon = {
     name: "Pokemon",
     type: "Electric",
@@ -18,7 +16,6 @@ export function PokemonViewer() {
   return (
     <>
       <div className={styles.viewerContent}>
-        
         <button className={styles.navButton} aria-label="Previous card">
           <svg
             width="24"
@@ -32,7 +29,6 @@ export function PokemonViewer() {
           </svg>
         </button>
 
-        
         <div
           className={styles.card}
           style={{ borderColor: currentPokemon.typeColor }}
@@ -57,7 +53,6 @@ export function PokemonViewer() {
               </div>
             </div>
 
-            
             <div className={styles.imageContainer}>
               <img
                 src={currentPokemon.image || "/placeholder.svg"}
@@ -66,7 +61,6 @@ export function PokemonViewer() {
               />
             </div>
 
-            
             <div className={styles.cardInfo}>
               <div className={styles.attackBox}>
                 <div className={styles.attackHeader}>
@@ -95,7 +89,6 @@ export function PokemonViewer() {
           </div>
         </div>
 
-        
         <button className={styles.navButton} aria-label="Next card">
           <svg
             width="24"
