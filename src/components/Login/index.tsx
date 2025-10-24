@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { User, Lock, Eye, EyeOff } from "lucide-react";
-import "./Login.css";
+
+import "./styles.css";
 
 interface LoginProps {
   onLogin: (username: string) => void;
 }
 
-export default function Login({ onLogin }: LoginProps) {
+export function Login({ onLogin }: LoginProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

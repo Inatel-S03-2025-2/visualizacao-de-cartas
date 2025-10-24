@@ -1,0 +1,9 @@
+.viewerContainer {
+  width: 100%;
+  margin: 8rem 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
