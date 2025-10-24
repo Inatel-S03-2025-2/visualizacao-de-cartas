@@ -4,6 +4,7 @@ import { CardsDetailPage, DashboardPage, LoginPage } from "@/pages";
 import { Layout } from "@/pages/layout";
 import { PrivateRoute } from "@/components/PrivateRoute";
 
+
 export function AppRoutes() {
   return (
     <Routes>
@@ -24,3 +25,6 @@ export function AppRoutes() {
     </Routes>
   );
 }
+
+
+
