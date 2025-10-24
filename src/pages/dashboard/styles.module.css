@@ -1,0 +1,135 @@
+.dashboardContainer {
+  display: flex;
+  min-height: calc(100vh - 220px);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  max-width: 750px;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 1rem;
+}
+
+.battleSection {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.battleButton {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 1.25rem 4rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(231, 76, 60, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.battleButton::before {
+  content: "⚔️";
+  position: absolute;
+  left: 2rem;
+  font-size: 1.5rem;
+  animation: swing 1s ease-in-out infinite;
+}
+
+.battleButton::after {
+  content: "⚔️";
+  position: absolute;
+  right: 2rem;
+  font-size: 1.5rem;
+  animation: swing 1s ease-in-out infinite reverse;
+}
+
+@keyframes swing {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+.battleButton:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(231, 76, 60, 0.6);
+  background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+}
+
+.battleButton:active {
+  transform: translateY(-2px) scale(1.03);
+}
+
+.emptyState {
+  text-align: center;
+  color: white;
+  padding: 3rem;
+}
+
+.emptyState h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.emptyState p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .cardsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  .sidebar {
+    left: 10px;
+    top: 220px;
+  }
+
+  .mainContent {
+    padding: 1rem;
+  }
+
+  .pokemonCard {
+    min-height: 300px;
+  }
+
+  .battleButton {
+    padding: 0.75rem 2rem;
+    font-size: 1.2rem;
+  }
+}

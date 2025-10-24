@@ -4,22 +4,22 @@
 
 ### 📋 Sobre o Projeto
 
-Este projeto implementa um sistema completo de visualização de cartas Pokémon, desenvolvido como parte do Tema 4 da disciplina S03. O sistema permite aos usuários visualizar, filtrar, ordenar e explorar detalhes das cartas Pokémon através de uma interface intuitiva e funcional.
+Sistema de visualização de cartas Pokémon desenvolvido como parte do Tema 4 da disciplina S03. Permite aos usuários visualizar sua coleção de cartas através de uma interface web.
 
-### 🎯 Funcionalidades Principais
+### 🎯 Status de Implementação
 
-#### Para o Usuário:
-- **Sistema de Login**: Autenticação segura para acesso ao sistema
-- **Visualização de Cartas**: Interface principal para exibir coleção de cartas Pokémon
-- **Filtros Avançados**: Filtragem de cartas por diversos critérios (tipo, geração, atributos)
-- **Ordenação Personalizada**: Organização das cartas por diferentes parâmetros
-- **Detalhes das Cartas**: Visualização completa de informações detalhadas de cada carta
-- **Perfil do Jogador**: Visualização das informações pessoais e estatísticas
+**Implementado:**
+- Login (autenticação mockada)
+- Dashboard com visualização de cartas
+- Cards com informações (tipos, stats, geração, shiny)
+- Botões de Batalha e Trocas (UI apenas)
 
-#### Integração com Sistemas Externos:
-- **PokéAPI**: Integração com a API oficial Pokémon para dados atualizados
-- **Sistema de Login**: Autenticação externa integrada
-- **Sistema de Distribuição**: Gerenciamento da distribuição das cartas
+**Pendente:**
+- Funcionalidades de Batalha e Trocas
+- Página de Perfil do Jogador
+- Página de Detalhes da Carta
+- Filtros e Ordenação
+- Integração com PokéAPI
 
 ### 🏗️ Arquitetura do Sistema
 
@@ -52,57 +52,77 @@ Este projeto implementa um sistema completo de visualização de cartas Pokémon
 - **Métodos**:
   - `showDetails()`: Exibe detalhes completos da carta
 
-### 🔄 Casos de Uso
+### 🔄 Casos de Uso (conforme diagrama)
 
-1. **Visualizar Cartas**: Funcionalidade principal que permite a exibição da coleção
-2. **Filtrar Cartas**: Extensão que permite filtragem por critérios específicos
-3. **Ordenar Cartas**: Extensão que permite ordenação personalizada
-4. **Ver Detalhes**: Extensão que mostra informações completas de uma carta
-5. **Login**: Funcionalidade obrigatória para acesso ao sistema
-6. **Visualizar Perfil**: Permite ver informações do jogador logado
+1. **Login**: Autenticação para acesso ao sistema
+2. **Visualizar Cartas**: Exibição da coleção de cartas
+3. **Batalhar**: Sistema de batalhas entre cartas
+4. **Trocar Cartas**: Sistema de trocas de cartas
+5. **Visualizar Perfil**: Informações do jogador
+6. **Ver Detalhes**: Detalhes completos de uma carta
 
-### 🌐 Integração com APIs
+Veja o diagrama completo em `docs/use-case-diagram.png`
 
-O sistema integra-se com a **PokéAPI** para:
-- Obter dados atualizados das cartas
-- Buscar informações detalhadas dos Pokémon
-- Sincronizar movimentos e atributos
-- Manter base de dados atualizada
+### 🌐 Integração Futura
+
+**PokéAPI**: O sistema será integrado com a PokéAPI para obter dados reais das cartas. Atualmente utiliza dados mockados (`src/data/mockPokemons.ts`).
 
 ### 📁 Estrutura do Projeto
 
 ```
 visualizacao-de-cartas/
 ├── docs/
-│   ├── class-diagram.png      # Diagrama de classes UML
-│   ├── use-case-diagram.png   # Diagrama de casos de uso
-│   ├── UML projeto S03 V3.drawio  # Arquivo fonte dos diagramas
-│   └── Temas.docx            # Especificações dos temas
-├── src/                      # Código fonte (a ser implementado)
-├── assets/                   # Recursos estáticos
-└── README.md                 # Este arquivo
+│   ├── class-diagram.png          # Diagrama de classes UML
+│   ├── use-case-diagram.png       # Diagrama de casos de uso
+│   └── UML projeto S03 V4.drawio  # Arquivo fonte dos diagramas
+├── src/
+│   ├── components/                # Componentes reutilizáveis
+│   │   ├── BattleButton/         # Botão de batalha
+│   │   ├── TradeButton/          # Botão de trocas
+│   │   ├── PokemonCard/          # Card individual de Pokémon
+│   │   ├── PokemonGrid/          # Grid de cards
+│   │   ├── Header/               # Cabeçalho com logo e menu
+│   │   ├── UserDropdown/         # Menu do usuário
+│   │   ├── Login/                # Formulário de login
+│   │   ├── PrivateRoute/         # Proteção de rotas
+│   │   └── EmptyState/           # Estado vazio
+│   ├── pages/                    # Páginas da aplicação
+│   │   ├── auth/login.tsx        # Página de login
+│   │   ├── dashboard/            # Dashboard principal
+│   │   └── dashboard/cards/detail/  # Detalhes da carta
+│   ├── routes/                   # Configuração de rotas
+│   ├── contexts/                 # Contextos React (Auth)
+│   ├── hooks/                    # Hooks customizados (useAuth)
+│   ├── types/                    # Definições de tipos TypeScript
+│   ├── data/                     # Camada de dados (mockPokemons)
+│   └── assets/                   # Recursos estáticos
+├── index.html
+├── package.json
+└── README.md
 ```
 
 ### 🚀 Como Executar
 
-_(Instruções de execução serão adicionadas conforme o desenvolvimento progride)_
+```bash
+npm install
+npm run dev
+```
 
-### 🛠️ Tecnologias Utilizadas
+Acesse `http://localhost:5173` e faça login com qualquer usuário.
 
-_(As tecnologias utilizadas serão adicionadas conforme o desenvolvimento progride)_
+### 🛠️ Tecnologias
 
-### 👥 Equipe - Equipe 8
+- React 19.1.1 + TypeScript 5.9.3
+- Vite 7.1.7
+- React Router 7.9.4
+- CSS Modules
 
-Este projeto é desenvolvido pela **Equipe 8** como parte da disciplina S03 - 2025/2, seguindo as especificações do Tema 4.
+### 👥 Equipe 8
 
-**Membros da Equipe:**
-- **Douglas Hideaki de Almeida Otani**
-- **João Victor Godoy da Silva**
-- **João Victor Siécola Souza**
-- **Matheus Dionisio Teixeira Andrade**
+**Membros:**
+- Douglas Hideaki de Almeida Otani
+- João Victor Godoy da Silva
+- João Victor Siécola Souza
+- Matheus Dionisio Teixeira Andrade
 
-### 📝 Observações
-
-- O sistema requer autenticação para todas as funcionalidades principais
-- A integração com PokéAPI garante dados sempre atualizados
-- O design segue os padrões UML especificados nos diagramas
+**Disciplina:** S03 - 2025/2 | **Tema:** 4

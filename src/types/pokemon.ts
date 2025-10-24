@@ -1,10 +1,18 @@
 export interface Pokemon {
+  id: number;
   name: string;
-  type: string;
+  types: string[];
   typeColor: string;
-  hp: number;
   image: string;
-  attack: string;
-  damage: number;
-  rarity: string;
+  hp: number;
+  attack: number;
+  defense: number;
+  specialAttack?: number;
+  specialDefense?: number;
+  speed?: number;
+  generation: number;
+  isShiny: boolean;
+  moves?: string[];
+  rarity?: string;
+  damage?: number;
 }

@@ -1,0 +1,15 @@
+.emptyState {
+  text-align: center;
+  color: white;
+  padding: 3rem;
+}
+
+.emptyState h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.emptyState p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
