@@ -14,6 +14,15 @@
   gap: 2rem;
 }
 
+.actionButtons {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+  max-width: 750px;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
 .cardsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -32,28 +41,56 @@
 }
 
 .battleButton {
-  background: white;
-  color: #667eea;
-  border: 3px solid rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-  padding: 1rem 3rem;
-  font-size: 1.5rem;
-  font-weight: 700;
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 1.25rem 4rem;
+  font-size: 1.6rem;
+  font-weight: 800;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(231, 76, 60, 0.4);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.battleButton::before {
+  content: "⚔️";
+  position: absolute;
+  left: 2rem;
+  font-size: 1.5rem;
+  animation: swing 1s ease-in-out infinite;
+}
+
+.battleButton::after {
+  content: "⚔️";
+  position: absolute;
+  right: 2rem;
+  font-size: 1.5rem;
+  animation: swing 1s ease-in-out infinite reverse;
+}
+
+@keyframes swing {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
 }
 
 .battleButton:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
-  background: #f8f9fa;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(231, 76, 60, 0.6);
+  background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
 }
 
 .battleButton:active {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.03);
 }
 
 .emptyState {
@@ -72,7 +109,6 @@
   opacity: 0.9;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .cardsGrid {
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
