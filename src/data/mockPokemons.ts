@@ -20,7 +20,7 @@ export const mockPokemons: Pokemon[] = [
     types: ["Fire", "Flying"],
     typeColor: "#E74C3C",
     image:
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png",
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/6.png",
     hp: 78,
     attack: 84,
     defense: 78,
