@@ -1,0 +1,99 @@
+.dashboardContainer {
+  display: flex;
+  min-height: calc(100vh - 220px);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 1rem;
+}
+
+.battleSection {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.battleButton {
+  background: white;
+  color: #667eea;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 1rem 3rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.battleButton:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  background: #f8f9fa;
+}
+
+.battleButton:active {
+  transform: translateY(-2px);
+}
+
+.emptyState {
+  text-align: center;
+  color: white;
+  padding: 3rem;
+}
+
+.emptyState h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.emptyState p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .cardsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  .sidebar {
+    left: 10px;
+    top: 220px;
+  }
+
+  .mainContent {
+    padding: 1rem;
+  }
+
+  .pokemonCard {
+    min-height: 300px;
+  }
+
+  .battleButton {
+    padding: 0.75rem 2rem;
+    font-size: 1.2rem;
+  }
+}
