@@ -1,5 +1,5 @@
 import { PokemonCard } from "@/components/PokemonCard";
-import type { Pokemon } from "@/types/pokemon";
+import type { Pokemon } from "@/types/card";
 import styles from "./styles.module.css";
 
 interface PokemonGridProps {
