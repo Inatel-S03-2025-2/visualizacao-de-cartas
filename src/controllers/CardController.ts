@@ -1,5 +1,5 @@
 import type { Card } from "@/types/card";
-import { PokemonMapper } from "@/mappers/PokemonMapper";
+import { CardMapper } from "@/mappers/CardMapper";
 import { PokeApiService } from "@/services/PokeApiService";
 
 const USER_CARDS_MOCK = [1, 2, 3, 4, 5];
@@ -9,12 +9,12 @@ export class CardController {
     const userCardsIds = USER_CARDS_MOCK; // futuramente da API de distribuição de cartas
     const pokemonsData = await PokeApiService.getPokemons(userCardsIds);
     return pokemonsData.map((res, idx) =>
-      PokemonMapper.fromApiResponse(res, String(userCardsIds[idx]))
+      CardMapper.fromApiResponse(res, String(userCardsIds[idx]))
     );
   }
 
   static async getCardById(id: string): Promise<Card> {
     const res = await PokeApiService.getPokemon(id);
-    return PokemonMapper.fromApiResponse(res, id);
+    return CardMapper.fromApiResponse(res, id);
   }
 }
