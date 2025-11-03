@@ -6,7 +6,7 @@ export interface Card {
   id: number;
   name: string;
   types: string[];
-  typeColor: TypeColor;
+  typeColors: string[];
   image: string;
   hp: number;
   attack: number;
@@ -14,10 +14,8 @@ export interface Card {
   specialAttack?: number;
   specialDefense?: number;
   speed?: number;
-  generation: number;
   isShiny: boolean;
   moves?: string[];
-  rarity?: string;
   damage?: number;
 }
 
