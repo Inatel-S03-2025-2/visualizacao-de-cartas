@@ -1,9 +1,9 @@
 import type { GetSpecificPokemonResponse, Card } from "@/types/card";
 
-export class PokemonMapper {
+export class CardMapper {
   static fromApiResponse(res: GetSpecificPokemonResponse, id: string): Card {
     const types = res.types.map((t) => t.type.name);
-    const typeColor = PokemonMapper.getTypeColor(types[0]);
+    const typeColors = types.map((type) => CardMapper.getTypeColor(type));
 
     const stats: Record<string, number> = {};
     for (const s of res.stats) {
@@ -14,18 +14,16 @@ export class PokemonMapper {
       id: Number(id),
       name: res.name,
       types,
-      typeColor,
+      typeColors,
       image: res.sprites.other["official-artwork"].front_default,
       hp: stats["hp"],
       attack: stats["attack"],
       defense: stats["defense"],
-      isShiny: false, // Api de Distribuição de Cartas
+      isShiny: false,
       specialAttack: stats["special-attack"],
       specialDefense: stats["special-defense"],
       speed: stats["speed"],
-      generation: 0, // Parece que não tem
       moves: res.moves.slice(0, 4).map((m) => m.move.name),
-      rarity: "common", // Parece que não tem
       damage: stats["attack"],
     };
   }
