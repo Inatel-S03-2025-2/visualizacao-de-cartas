@@ -1,7 +1,7 @@
 import styles from "./Perfil.module.css";
 
-const Perfil: React.FC = () => {
- 
+const Profile: React.FC = () => {
+  
   const player = {
     name: "Ash Ketchum",
     email: "ash@pallet.com",
@@ -9,13 +9,18 @@ const Perfil: React.FC = () => {
     victories: 128,
     defeats: 45,
     favoritePokemon: "Pikachu",
-
+    avatar:
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/ash.png",
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-
+        <img
+          src={player.avatar}
+          alt=","
+          className={styles.avatar}
+        />
         <h2 className={styles.name}>{player.name}</h2>
         <p className={styles.email}>{player.email}</p>
 
@@ -43,4 +48,4 @@ const Perfil: React.FC = () => {
   );
 };
 
-export default Perfil;
+export default Profile;
