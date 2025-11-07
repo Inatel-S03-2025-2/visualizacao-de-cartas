@@ -30,7 +30,7 @@ export function PokemonViewer() {
 
   const getTypeColor = (typeName?: string) => {
     const key = typeName as unknown as keyof typeof typeColor | undefined;
-    return (key && typeColor[key]) ?? "#777"; // fallback neutro se não encontrar
+    return (key && typeColor[key]) ?? "#777";
   };
 
   const fetchMoves = async (url: string) => {
