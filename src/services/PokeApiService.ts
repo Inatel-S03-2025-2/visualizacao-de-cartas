@@ -13,7 +13,7 @@ export class PokeApiService {
     return response.json();
   }
 
-  static async getPokemons(
+  static async fetchPokemons(
     ids: number[]
   ): Promise<GetSpecificPokemonResponse[]> {
     const promises = ids.map((id) => this.getPokemon(id));
