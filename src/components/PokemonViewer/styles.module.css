@@ -123,6 +123,29 @@
 	object-fit: contain;
 }
 
+.statsContent {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 1.5rem;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.statBadge {
+	padding: 0.375rem 0.75rem;
+	border-radius: 12px;
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: white;
+	text-transform: capitalize;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	text-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.statBadge > span {
+	margin: 0 0.25rem;
+}
+
 /* Card Info */
 .cardInfo {
 	display: flex;

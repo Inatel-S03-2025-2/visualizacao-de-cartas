@@ -2,8 +2,9 @@ import { useParams } from "react-router";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import { typeColor } from "@/consts/type-color";
-import type { GetSpecificPokemonResponse, MoveDetails } from "@/types/card";
-import { ChevronsLeft, ChevronsRight, Divide } from "lucide-react";
+import type { Card, MoveDetails } from "@/types/card";
+import { ChevronsLeft, ChevronsRight } from "lucide-react";
+import { CardController } from "@/controllers/CardController";
 
 type Params = {
   id: string;
@@ -11,17 +12,25 @@ type Params = {
 
 export function PokemonViewer() {
   const params = useParams<Params>();
-  const [pokemonData, setPokemonData] = useState<GetSpecificPokemonResponse>();
+  const [pokemonData, setPokemonData] = useState<Card>();
   const [moveData, setMoveData] = useState<MoveDetails | null>(null);
   const [viewIndex, setViewIndex] = useState<number>(0);
 
   const fetchData = async (id: string) => {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    const res: GetSpecificPokemonResponse = await response.json();
+    if (!id) return;
+    try {
+      const pokemon = await CardController.getCardById(id);
+      setViewIndex(0);
+      setPokemonData(pokemon);
+    } catch (err) {
+      console.error("Erro ao obter carta pelo CardController:", err);
+      setPokemonData(undefined);
+    }
+  };
 
-    setViewIndex(0);
-
-    setPokemonData(res);
+  const getTypeColor = (typeName?: string) => {
+    const key = typeName as unknown as keyof typeof typeColor | undefined;
+    return (key && typeColor[key]) ?? "#777"; // fallback neutro se não encontrar
   };
 
   const fetchMoves = async (url: string) => {
@@ -54,13 +63,23 @@ export function PokemonViewer() {
 
   useEffect(() => {
     if (!pokemonData) return;
-    const url = pokemonData.moves[viewIndex]?.move.url;
-    if (!url) return;
+    const moveName = pokemonData.moves?.[viewIndex];
+    
+    if (!moveName) {
+      setMoveData(null);
+      return;
+    }
 
     let cancelled = false;
     (async () => {
-      const data = await fetchMoves(url);
-      if (!cancelled) setMoveData(data);
+      try {
+        const url = `https://pokeapi.co/api/v2/move/${moveName}`;
+        const data = await fetchMoves(url);
+        if (!cancelled) setMoveData(data);
+      } catch (err) {
+        console.error("Erro ao buscar move:", err);
+        if (!cancelled) setMoveData(null);
+      }
     })();
 
     return () => {
@@ -90,10 +109,8 @@ export function PokemonViewer() {
           className={styles.card}
           style={{
             borderColor:
-              typeColor[
-                pokemonData.types[0].type
-                  .name as unknown as keyof typeof typeColor
-              ],
+            getTypeColor(pokemonData.types[0])
+
           }}
         >
           <div className={styles.cardContent}>
@@ -107,27 +124,18 @@ export function PokemonViewer() {
                   className={styles.pokemonType}
                   style={{
                     color:
-                      typeColor[
-                        pokemonData.types[0].type
-                          .name as unknown as keyof typeof typeColor
-                      ],
+                    getTypeColor(pokemonData.types[0])
                   }}
                 >
                   <div className={styles.typesContent}>
-                    {pokemonData.types.map((type, index: number) => (
-                      <div
-                        className={styles.typeBadge}
-                        style={{
-                          backgroundColor:
-                            typeColor[
-                              pokemonData.types[0].type
-                                .name as unknown as keyof typeof typeColor
-                            ],
-                        }}
-                        key={index}
-                      >
-                        {type.type.name}
-                      </div>
+                    {pokemonData.types.map((type, index) => (
+                    <span
+                      key={type}
+                      className={styles.typeBadge}
+                      style={{ backgroundColor: getTypeColor(pokemonData.types[index]) }}
+                    >
+                      {type}
+                    </span>
                     ))}
                   </div>
                 </div>
@@ -136,24 +144,59 @@ export function PokemonViewer() {
                 className={styles.hpBadge}
                 style={{
                   backgroundColor:
-                    typeColor[
-                      pokemonData.types[0].type
-                        .name as unknown as keyof typeof typeColor
-                    ],
+                    getTypeColor(pokemonData.types[0])
                 }}
               >
-                HP {pokemonData.stats[0].base_stat}
+                HP {pokemonData.hp}
               </div>
             </div>
 
             <div className={styles.imageContainer}>
               <img
                 src={
-                  pokemonData.sprites.other["official-artwork"].front_default
+                  pokemonData.image || ""
                 }
                 alt={pokemonData.name}
                 className={styles.pokemonImage}
               />
+            </div>
+
+            <div className={styles.statsContent}>
+              <div 
+                className={styles.statBadge} 
+                style={{ border: "2px solid #f07f2f", color: '#f7ab79'}}
+              >
+                <span>ATK</span>
+                <span>{pokemonData.attack}</span>
+              </div>
+              <div 
+                className={styles.statBadge} 
+                style={{ border: "2px solid #f8d032", color: '#f8e17b'}}
+              >
+                <span>DEF</span>
+                <span>{pokemonData.defense}</span>
+              </div>
+              <div 
+                className={styles.statBadge} 
+                style={{ border: "2px solid #6890f0", color: '#a0b6f0'}}
+              >
+                <span>Sp. ATK</span>
+                <span>{pokemonData.specialAttack}</span>
+              </div>
+              <div 
+                className={styles.statBadge} 
+                style={{ border: "2px solid #78c84f", color: '#a7dc8e'}}
+              >
+                <span>Sp. DEF</span>
+                <span>{pokemonData.specialDefense}</span>
+              </div>
+              <div 
+                className={styles.statBadge} 
+                style={{ border: "2px solid #f55988", color: '#f893b1'}}
+              >
+                <span>SPD</span>
+                <span>{pokemonData.speed}</span>
+              </div>
             </div>
 
             <div className={styles.cardInfo}>
@@ -164,20 +207,17 @@ export function PokemonViewer() {
                 <div className={styles.attackBox}>
                   <div className={styles.attackHeader}>
                     <span className={styles.attackName}>
-                      {pokemonData.moves[viewIndex].move.name
+                      {(pokemonData.moves?.[viewIndex] || '')
                         .charAt(0)
                         .toLocaleUpperCase() +
-                        pokemonData.moves[viewIndex].move.name.slice(1)}
+                        (pokemonData.moves?.[viewIndex].slice(1) || '')}
                     </span>
                     {moveData?.power && (
                       <span
                         className={styles.damageBadge}
                         style={{
                           backgroundColor:
-                            typeColor[
-                              pokemonData.types[0].type
-                                .name as unknown as keyof typeof typeColor
-                            ],
+                            getTypeColor(pokemonData.types[0])
                         }}
                       >
                         Power {moveData?.power}

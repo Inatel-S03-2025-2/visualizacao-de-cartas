@@ -4,7 +4,8 @@ import { PokeApiService } from "@/services/PokeApiService";
 
 const USER_CARDS_MOCK = [1, 2, 3, 4, 5];
 
-export class CardController {
+export class CardController {  
+  
   static async fetchCardsByUserId(userId: string): Promise<Card[]> {
     const userCardsIds = USER_CARDS_MOCK; // futuramente da API de distribuição de cartas
     const pokemonsData = await PokeApiService.getPokemons(userCardsIds);
