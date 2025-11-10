@@ -14,7 +14,7 @@ export class CardController {
   }
 
   static async getCardById(id: string): Promise<Card> {
-    const res = await PokeApiService.getPokemon(id);
+    const res = await PokeApiService.getCard(id);
     return CardMapper.fromApiResponse(res, id);
   }
 }
