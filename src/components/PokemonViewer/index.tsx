@@ -120,7 +120,25 @@ export function PokemonViewer() {
                   {pokemonData.name.charAt(0).toLocaleUpperCase() +
                     pokemonData.name.slice(1)}
                 </h2>
-                <div
+    
+              </div>
+              <div
+                className={styles.statBadge}
+                style={{ border: "2px solid #ff5959", color: '#ff8989'}}  
+              >
+                HP {pokemonData.hp}
+              </div>
+            </div>
+
+            <div className={styles.imageContainer}>
+              <img
+                src={
+                  pokemonData.image || ""
+                }
+                alt={pokemonData.name}
+                className={styles.pokemonImage}
+              />
+              <div
                   className={styles.pokemonType}
                   style={{
                     color:
@@ -139,26 +157,7 @@ export function PokemonViewer() {
                     ))}
                   </div>
                 </div>
-              </div>
-              <div
-                className={styles.hpBadge}
-                style={{
-                  backgroundColor:
-                    getTypeColor(pokemonData.types[0])
-                }}
-              >
-                HP {pokemonData.hp}
-              </div>
-            </div>
 
-            <div className={styles.imageContainer}>
-              <img
-                src={
-                  pokemonData.image || ""
-                }
-                alt={pokemonData.name}
-                className={styles.pokemonImage}
-              />
             </div>
 
             <div className={styles.statsContent}>
