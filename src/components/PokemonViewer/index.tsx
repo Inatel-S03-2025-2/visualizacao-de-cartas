@@ -232,11 +232,6 @@ export function PokemonViewer() {
                   <ChevronsRight />
                 </button>
               </div>
-
-              <div className={styles.rarityBox}>
-                <span className={styles.rarityLabel}>Rarity</span>
-                <span className={styles.rarityValue}></span>
-              </div>
             </div>
           </div>
         </div>
