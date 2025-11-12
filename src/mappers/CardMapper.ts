@@ -1,4 +1,5 @@
-import type { GetSpecificPokemonResponse, Card } from "@/types/card";
+import type { GetSpecificPokemonResponse } from "@/services/responses/get-specific-pokemon-response";
+import type { Card } from "@/types/card";
 
 export class CardMapper {
   static fromApiResponse(res: GetSpecificPokemonResponse, id: string): Card {
@@ -25,8 +26,9 @@ export class CardMapper {
       speed: stats["speed"],
       moves: res.moves.slice(0, 4).map((m) => m.move.name),
       damage: stats["attack"],
+      abilities: res.abilities.map((a) => a.ability.name),
     };
-  }
+  } 
 
   private static getTypeColor(type: string): string {
     const typeColors: Record<string, string> = {
