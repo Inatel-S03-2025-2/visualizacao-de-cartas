@@ -19,17 +19,28 @@ export function PokemonViewer() {
   const [viewMoveIndex, setViewMoveIndex] = useState<number>(0);
   const [viewAbilityIndex, setViewAbilityIndex] = useState<number>(0);
   const [abilityData, setAbilityData] = useState<Ability | null>(null);
+  const [pokemonLoading, setPokemonLoading] = useState<boolean>(false);
+  const [pokemonError, setPokemonError] = useState<string | null>(null);
+  const [moveLoading, setMoveLoading] = useState<boolean>(false);
+  const [moveError, setMoveError] = useState<string | null>(null);
+  const [abilityLoading, setAbilityLoading] = useState<boolean>(false);
+  const [abilityError, setAbilityError] = useState<string | null>(null);
 
   const fetchData = async (id: string) => {
     if (!id) return;
+
+    setPokemonLoading(true);
+    setPokemonError(null);
     try {
       const pokemon = await CardController.getCardById(id);
       setViewMoveIndex(0);
       setViewAbilityIndex(0);
       setPokemonData(pokemon);
     } catch (err) {
-      console.error("Erro ao obter carta pelo CardController:", err);
+      setPokemonError("Erro ao buscar dados do Pokémon.");
       setPokemonData(undefined);
+    } finally {
+      setPokemonLoading(false);
     }
   };
 
@@ -95,19 +106,30 @@ export function PokemonViewer() {
     
     if (!abilityName) {
       setAbilityData(null);
+      setAbilityError(null);
       return;
     }
 
     let cancelled = false;
-    (async () => {
+    const loadAbilityData = async () => {
+      setAbilityLoading(true);
+      setAbilityError(null);
+
       try {
         const data = await fetchAbility(abilityName);
         if (!cancelled) setAbilityData(data);
       } catch (err) {
-        console.error("Erro ao buscar habilidade:", err);
-        if (!cancelled) setAbilityData(null);
+        
+        if (!cancelled){
+          setAbilityError("Erro ao buscar habilidade:");
+          setAbilityData(null);
+        }
+      } finally {
+        if (!cancelled) setAbilityLoading(false);
       }
-    })();
+    };
+
+    loadAbilityData();
 
     return () => {
       cancelled = true;
@@ -119,28 +141,63 @@ export function PokemonViewer() {
     const moveName = pokemonData.moves?.[viewMoveIndex];
     
     if (!moveName) {
+      setAbilityError(null);
       setMoveData(null);
       return;
     }
 
     let cancelled = false;
-    (async () => {
+    const loadMoveData = async () => {
+      setMoveLoading(true);
+      setMoveError(null);
+
       try {
         const data = await fetchMoves(moveName);
         if (!cancelled) setMoveData(data);
       } catch (err) {
-        console.error("Erro ao buscar move:", err);
-        if (!cancelled) setMoveData(null);
+        if (!cancelled){ 
+          setMoveError("Erro ao buscar move");
+          setMoveData(null)
+        }
+      } finally {
+        if (!cancelled) setMoveLoading(false);
       }
-    })();
+    };
+
+    loadMoveData();
 
     return () => {
       cancelled = true;
     };
   }, [pokemonData, viewMoveIndex]);
 
-  if (!pokemonData) return null;
+  if (pokemonLoading) {
+    return (
+      <div className={styles.viewerContent}>
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner}></div>
+          <p>Carregando Pokémon...</p>
+        </div>
+      </div>
+    );
+  }
 
+  if (pokemonError) {
+    return (
+      <div className={styles.viewerContent}>
+        <div className={styles.errorContainer}>
+          <h2>Erro ao carregar</h2>
+          <p>{pokemonError}</p>
+          <button onClick={() => fetchData(params.id || "")}>
+            Tentar novamente
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!pokemonData) return null;
+  
   return (
     <>
       <div className={styles.viewerContent}>
@@ -257,28 +314,34 @@ export function PokemonViewer() {
                   <ChevronsLeft />
                 </button>
                 <div className={styles.attackBox}>
-                  <div className={styles.attackHeader}>
-                    <span className={styles.attackName}>
-                      {(pokemonData.moves?.[viewMoveIndex] || '')
-                        .charAt(0)
-                        .toLocaleUpperCase() +
-                        (pokemonData.moves?.[viewMoveIndex].slice(1) || '')}
-                    </span>
-                    {moveData?.power && (
-                      <span
-                        className={styles.damageBadge}
-                        style={{
-                          backgroundColor:
-                            getTypeColor(pokemonData.types[0])
-                        }}
-                      >
-                        Power {moveData?.power}
-                      </span>
-                    )}
-                  </div>
-                  <p className={styles.attackDescription}>
-                    {moveData?.effect_entries[0].effect}
-                  </p>
+                  {moveLoading && <p className={styles.loadingText}>Carregando ataque...</p>}
+                  {moveError && <p className={styles.errorText}>Erro: {moveError}</p>}
+                  {!moveLoading && !moveError && (
+                    <>
+                      <div className={styles.attackHeader}>
+                        <span className={styles.attackName}>
+                          {(pokemonData.moves?.[viewMoveIndex] || '')
+                            .charAt(0)
+                            .toLocaleUpperCase() +
+                            (pokemonData.moves?.[viewMoveIndex].slice(1) || '')}
+                        </span>
+                        {moveData?.power && (
+                          <span
+                            className={styles.damageBadge}
+                            style={{
+                              backgroundColor:
+                                getTypeColor(pokemonData.types[0])
+                            }}
+                          >
+                            Power {moveData?.power}
+                          </span>
+                        )}
+                      </div>
+                      <p className={styles.attackDescription}>
+                        {moveData?.effect_entries[0].effect}
+                      </p>
+                    </>
+                  )}
                 </div>
 
                 <button className={styles.buttonArrow} onClick={handleAdvanceMove}>
@@ -292,17 +355,23 @@ export function PokemonViewer() {
                   <ChevronsLeft />
                 </button>
                 <div className={styles.attackBox}>
-                  <div className={styles.attackHeader}>
-                    <span className={styles.attackName}>
-                      {(pokemonData.abilities?.[viewAbilityIndex] || '')
-                        .charAt(0)
-                        .toLocaleUpperCase() +
-                        (pokemonData.abilities?.[viewAbilityIndex].slice(1) || '')}
-                    </span>
-                  </div>
-                  <p className={styles.attackDescription}>
-                    {abilityData?.description}
-                  </p>
+                  {abilityLoading && <p className={styles.loadingText}>Carregando habilidade...</p>}
+                  {abilityError && <p className={styles.errorText}>Erro: {abilityError}</p>}
+                  {!abilityLoading && !abilityError && (
+                    <>
+                      <div className={styles.attackHeader}>
+                        <span className={styles.attackName}>
+                          {(pokemonData.abilities?.[viewAbilityIndex] || '')
+                            .charAt(0)
+                            .toLocaleUpperCase() +
+                            (pokemonData.abilities?.[viewAbilityIndex].slice(1) || '')}
+                        </span>
+                      </div>
+                      <p className={styles.attackDescription}>
+                        {abilityData?.description}
+                      </p>
+                    </>
+                  )}
                 </div>
 
                 <button className={styles.buttonArrow} onClick={handleAdvanceAbility}>
