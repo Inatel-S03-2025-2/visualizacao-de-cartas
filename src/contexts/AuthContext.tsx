@@ -1,14 +1,17 @@
 import { createContext, useState } from "react";
 import type { ReactNode } from "react";
+import { AuthController } from "@/controllers/AuthController";
 
 interface User {
+  id: string;
   username: string;
+  email: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string) => void;
-  logout: () => void;
+  login: (username: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
   isAuthenticated: boolean;
 }
 
@@ -18,19 +21,18 @@ export { AuthContext };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
-    const savedUser = localStorage.getItem("user");
-    return savedUser ? JSON.parse(savedUser) : null;
+    return AuthController.getStoredUser();
   });
 
-  const login = (username: string) => {
-    const userData = { username };
+  const login = async (username: string, password: string) => {
+    const { user: userData } = await AuthController.login(username, password);
     setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+    AuthController.storeUser(userData);
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await AuthController.logout();
     setUser(null);
-    localStorage.removeItem("user");
   };
 
   const isAuthenticated = !!user;

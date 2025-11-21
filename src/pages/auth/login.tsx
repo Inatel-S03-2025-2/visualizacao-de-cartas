@@ -13,8 +13,8 @@ export function LoginPage() {
     }
   }, [isAuthenticated, navigate]);
 
-  const handleLogin = (username: string) => {
-    login(username);
+  const handleLogin = async (username: string, password: string) => {
+    await login(username, password);
     navigate("/dashboard");
   };
 

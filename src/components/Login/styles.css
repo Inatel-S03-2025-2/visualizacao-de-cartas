@@ -257,6 +257,17 @@
   text-decoration: underline;
 }
 
+.error-message {
+  color: #ff1744;
+  background: rgba(255, 23, 68, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 10px;
+  border: 1px solid rgba(255, 23, 68, 0.2);
+}
+
 /* Responsividade */
 @media (max-width: 480px) {
   .login-container {

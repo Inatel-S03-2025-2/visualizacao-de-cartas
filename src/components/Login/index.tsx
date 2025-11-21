@@ -4,7 +4,7 @@ import { User, Lock, Eye, EyeOff } from "lucide-react";
 import "./styles.css";
 
 interface LoginProps {
-  onLogin: (username: string) => void;
+  onLogin: (username: string, password: string) => Promise<void>;
 }
 
 export function Login({ onLogin }: LoginProps) {
@@ -12,18 +12,23 @@ export function Login({ onLogin }: LoginProps) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!username.trim() || !password.trim()) return;
 
     setIsLoading(true);
+    setError("");
 
-    // Simula um delay de login
-    setTimeout(() => {
+    try {
+      await onLogin(username, password);
+    } catch (err) {
+      setError("Erro ao fazer login. Tente novamente.");
+      console.error(err);
+    } finally {
       setIsLoading(false);
-      onLogin(username);
-    }, 1000);
+    }
   };
 
   return (
@@ -86,6 +91,8 @@ export function Login({ onLogin }: LoginProps) {
           >
             {isLoading ? "Entrando..." : "Entrar"}
           </button>
+
+          {error && <div className="error-message">{error}</div>}
         </form>
 
         <div className="login-footer">
