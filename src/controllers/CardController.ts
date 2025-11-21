@@ -1,18 +1,21 @@
 import type { Card } from "@/types/card";
 import { CardMapper } from "@/mappers/CardMapper";
 import { PokeApiService } from "@/services/PokeApiService";
+import { CardDistributionService } from "@/services/CardDistributionService";
 import type { Move } from "@/types/move";
 import { MoveMapper } from "@/mappers/MoveMapper";
 import type { Ability } from "@/types/ability";
 import { AbillityMapper } from "@/mappers/AbilityMapper";
 
-const USER_CARDS_MOCK = [1, 2, 3, 4, 5];
-
 export class CardController {
   private static pokeApiService = PokeApiService.getInstance();
+  private static cardDistributionService =
+    CardDistributionService.getInstance();
 
   static async fetchCardsByUserId(userId: string): Promise<Card[]> {
-    const userCardsIds = USER_CARDS_MOCK; // futuramente da API de distribuição de cartas
+    const userCardsIds = await this.cardDistributionService.getUserCards(
+      userId
+    );
     const pokemonsData = await this.pokeApiService.fetchCards(userCardsIds);
     return pokemonsData.map((res, idx) =>
       CardMapper.fromApiResponse(res, String(userCardsIds[idx]))
