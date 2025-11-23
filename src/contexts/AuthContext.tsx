@@ -21,18 +21,33 @@ export { AuthContext };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
-    return AuthController.getStoredUser();
+    try {
+      return AuthController.getStoredUser();
+    } catch (error) {
+      console.error("Erro ao recuperar usuário armazenado:", error);
+      return null;
+    }
   });
 
   const login = async (username: string, password: string) => {
-    const { user: userData } = await AuthController.login(username, password);
-    setUser(userData);
-    AuthController.storeUser(userData);
+    try {
+      const { user: userData } = await AuthController.login(username, password);
+      setUser(userData);
+      AuthController.storeUser(userData);
+    } catch (error) {
+      console.error("Erro no login:", error);
+      throw error;
+    }
   };
 
   const logout = async () => {
-    await AuthController.logout();
-    setUser(null);
+    try {
+      await AuthController.logout();
+    } catch (error) {
+      console.error("Erro no logout:", error);
+    } finally {
+      setUser(null);
+    }
   };
 
   const isAuthenticated = !!user;
