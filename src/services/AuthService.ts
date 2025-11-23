@@ -21,6 +21,7 @@ export class AuthService {
   }
 
   async login(username: string, password: string): Promise<LoginResponse> {
+    // Mock temporário - Remover quando backend estiver pronto
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
@@ -31,9 +32,10 @@ export class AuthService {
           },
           token: "mock-jwt-token-" + Date.now(),
         });
-      }, 500); // Simula latência da rede
+      }, 500);
     });
 
+    // TODO: Descomentar quando backend estiver pronto
     /*
     const response = await fetch(`${this.BASE_URL}/auth/login`, {
       method: 'POST',
@@ -52,12 +54,14 @@ export class AuthService {
   }
 
   async logout(): Promise<void> {
+    // Mock temporário - Remover quando backend estiver pronto
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
       }, 200);
     });
 
+    // TODO: Descomentar quando backend estiver pronto
     /*
     const token = localStorage.getItem('token');
     await fetch(`${this.BASE_URL}/auth/logout`, {
@@ -70,12 +74,14 @@ export class AuthService {
   }
 
   async validateToken(token: string): Promise<boolean> {
+    // Mock temporário - Remover quando backend estiver pronto
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(!!token);
       }, 100);
     });
 
+    // TODO: Descomentar quando backend estiver pronto
     /*
     try {
       const response = await fetch(`${this.BASE_URL}/auth/validate`, {
