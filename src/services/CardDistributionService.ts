@@ -1,8 +1,9 @@
 import { AuthController } from "@/controllers/AuthController";
 
+// TODO: Usado quando implementação real for descomentada
 interface UserCardsResponse {
   userId: string;
-  cards: number[]; // IDs dos pokémons
+  cards: number[];
 }
 
 export class CardDistributionService {
@@ -27,25 +28,50 @@ export class CardDistributionService {
   }
 
   async getUserCards(userId: string): Promise<number[]> {
-    // Simulação de chamada ao backend, retorna cards mockados por enquanto
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve([1, 2, 3, 4, 5]);
-      }, 300);
-    });
+    try {
+      if (!userId || userId.trim() === "") {
+        throw new Error("ID do usuário é obrigatório");
+      }
 
-    /*
-    const response = await fetch(`${this.BASE_URL}/cards/user/${userId}`, {
-      method: 'GET',
-      headers: this.getAuthHeaders(),
-    });
+      // Mock temporário - Remover quando backend estiver pronto
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          try {
+            resolve([1, 2, 3, 4, 5]);
+          } catch (error) {
+            reject(error);
+          }
+        }, 300);
+      });
 
-    if (!response.ok) {
-      throw new Error('Falha ao buscar cartas do usuário');
+      // TODO: Descomentar quando backend estiver pronto
+      /*
+      const response = await fetch(`${this.BASE_URL}/cards/user/${userId}`, {
+        method: 'GET',
+        headers: this.getAuthHeaders(),
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('Usuário não encontrado');
+        }
+        if (response.status === 401) {
+          throw new Error('Não autorizado. Faça login novamente');
+        }
+        throw new Error(`Falha ao buscar cartas: ${response.statusText}`);
+      }
+
+      const data: UserCardsResponse = await response.json();
+      
+      if (!data || !Array.isArray(data.cards)) {
+        throw new Error('Resposta inválida do servidor');
+      }
+
+      return data.cards;
+      */
+    } catch (error) {
+      console.error(`Erro ao buscar cartas do usuário ${userId}:`, error);
+      throw error;
     }
-
-    const data: UserCardsResponse = await response.json();
-    return data.cards;
-    */
   }
 }
