@@ -34,6 +34,9 @@ export class CardDistributionService {
       }
 
       // Mock temporário - Remover quando backend estiver pronto
+      // Forçando um erro
+      // throw new Error("Erro ao conectar com o servidor");
+
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           try {
