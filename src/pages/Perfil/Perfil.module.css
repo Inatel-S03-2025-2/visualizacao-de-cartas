@@ -1,64 +1,85 @@
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+.pageBackground {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #dbeafe, #bfdbfe);
-  padding: 2rem;
+  background-image: url("/background-ash.png"); 
+  background-size: cover;
+  background-position: center;
+  padding: 40px;
 }
 
-.card {
-  background-color: #fff;
-  border-radius: 1.5rem;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  text-align: center;
-  padding: 2rem;
+
+.profileContainer {
+  display: flex;
+  gap: 40px;
   width: 100%;
-  max-width: 380px;
-  transition: transform 0.2s ease-in-out;
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
-.card:hover {
-  transform: scale(1.02);
+
+.leftCard {
+  width: 280px;
+  backdrop-filter: blur(8px);
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7);
+  text-align: center;
 }
 
 .avatar {
   width: 120px;
   height: 120px;
-  border-radius: 50%;
-  border: 4px solid #facc15;
-  margin-bottom: 1rem;
-}
-
-.name {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #1e3a8a;
+  object-fit: contain;
+  margin: 0 auto 20px;
 }
 
 .email {
-  color: #475569;
-  margin-bottom: 1.5rem;
+  color: #444;
+  margin-bottom: 15px;
 }
 
-.stats {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 1.5rem;
+.infoBox {
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+  text-align: left;
+  border: 1px solid #e5e5e5;
 }
 
-.label {
-  display: block;
-  font-weight: bold;
-  color: #2563eb;
+.favoritePokemon {
+  color: rgb(255, 115, 0);
 }
 
-.favorite {
-  color: #1e40af;
-  font-size: 1rem;
+
+.rightContent {
+  flex: 1;
+  padding: 20px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
 }
 
-.highlight {
-  color: #facc15;
-  font-weight: bold;
+.sectionTitle {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+
+.pokemonGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.pokemonCard {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #dcdcdc;
+}
+
+.pokemonImage {
+  width: 90px;
 }

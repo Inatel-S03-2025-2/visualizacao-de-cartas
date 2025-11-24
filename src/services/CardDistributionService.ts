@@ -40,7 +40,7 @@ export class CardDistributionService {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           try {
-            resolve([1, 2, 3, 4, 5]);
+            resolve([1, 7, 3, 4, 5]);
           } catch (error) {
             reject(error);
           }
