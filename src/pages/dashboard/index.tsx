@@ -45,9 +45,10 @@ export function DashboardPage() {
     return (
       <div className={styles.dashboardContainer}>
         <div className={styles.mainContent}>
-          <p style={{ color: "white", textAlign: "center" }}>
-            Carregando cartas...
-          </p>
+          <div className={styles.loadingContainer}>
+            <div className={styles.spinner}></div>
+            <p>Carregando cartas...</p>
+          </div>
         </div>
       </div>
     );
@@ -57,33 +58,11 @@ export function DashboardPage() {
     return (
       <div className={styles.dashboardContainer}>
         <div className={styles.mainContent}>
-          <div
-            style={{
-              textAlign: "center",
-              color: "white",
-              padding: "2rem",
-            }}
-          >
-            <h2 style={{ marginBottom: "1rem" }}>Erro ao carregar cartas</h2>
-            <p style={{ marginBottom: "1.5rem", opacity: 0.8 }}>{error}</p>
-            <button
-              onClick={loadCards}
-              style={{
-                padding: "0.75rem 2rem",
-                fontSize: "1rem",
-                borderRadius: "8px",
-                border: "none",
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                color: "white",
-                cursor: "pointer",
-                fontWeight: "600",
-                transition: "transform 0.2s",
-              }}
-              onMouseOver={(e) =>
-                (e.currentTarget.style.transform = "scale(1.05)")
-              }
-              onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
-            >
+          <div className={styles.errorContainer}>
+            <div className={styles.errorIcon}>⚠️</div>
+            <h2 className={styles.errorTitle}>Erro ao carregar cartas</h2>
+            <p className={styles.errorMessage}>{error}</p>
+            <button className={styles.retryButton} onClick={loadCards}>
               Tentar novamente
             </button>
           </div>
