@@ -1,16 +1,20 @@
 # Facade Pattern
 
 ## Descrição
+
 O **Facade** (Fachada) é um padrão de projeto estrutural que fornece uma interface simplificada para um subsistema complexo. Ele oculta a complexidade do sistema e fornece uma interface mais fácil de usar para os clientes.
 
 ## Problema que Resolve
+
 Em sistemas complexos, os clientes frequentemente precisam:
+
 - Interagir com múltiplos serviços e classes
 - Conhecer a ordem correta de chamadas
 - Lidar com dependências entre componentes
 - Escrever código repetitivo para operações comuns
 
 Isso resulta em:
+
 - Código duplicado
 - Acoplamento forte entre cliente e subsistemas
 - Dificuldade de manutenção
@@ -43,6 +47,7 @@ export class CardFacade {
 ```
 
 **O que a Facade encapsula:**
+
 - `PokeApiService` - Comunicação com API externa
 - `CardDistributionService` - Gerenciamento de cartas dos usuários
 - `CardFactory` - Transformação de dados da API
@@ -52,9 +57,11 @@ export class CardFacade {
 ## Métodos Disponíveis
 
 ### 1. **getCardById(id: string): Promise<Card>**
+
 Busca uma carta individual por ID.
 
 **Antes (sem Facade):**
+
 ```typescript
 // Cliente precisa conhecer PokeApiService e CardFactory
 const pokeApi = PokeApiService.getInstance();
@@ -63,15 +70,18 @@ const card = CardFactory.fromApiResponse(response, id);
 ```
 
 **Depois (com Facade):**
+
 ```typescript
 const facade = CardFacade.getInstance();
 const card = await facade.getCardById(id);
 ```
 
 ### 2. **getUserCards(userId: string): Promise<Card[]>**
+
 Busca todas as cartas de um usuário.
 
 **Antes (sem Facade):**
+
 ```typescript
 // Cliente precisa coordenar 3 passos
 const distributionService = CardDistributionService.getInstance();
@@ -84,21 +94,24 @@ const cardIds = await distributionService.getUserCards(userId);
 const responses = await pokeApi.fetchCards(cardIds);
 
 // 3. Transformar em objetos Card
-const cards = responses.map((res, idx) => 
+const cards = responses.map((res, idx) =>
   CardFactory.fromApiResponse(res, String(cardIds[idx]))
 );
 ```
 
 **Depois (com Facade):**
+
 ```typescript
 const facade = CardFacade.getInstance();
 const cards = await facade.getUserCards(userId);
 ```
 
 ### 3. **getMoveDetails(moveName: string): Promise<Move>**
+
 Busca detalhes de um movimento.
 
 **Simplificação:**
+
 ```typescript
 // Antes: PokeApiService + MoveFactory
 const facade = CardFacade.getInstance();
@@ -106,18 +119,22 @@ const move = await facade.getMoveDetails("thunder");
 ```
 
 ### 4. **getAbilityDetails(abilityName: string): Promise<Ability>**
+
 Busca detalhes de uma habilidade.
 
 **Simplificação:**
+
 ```typescript
 const facade = CardFacade.getInstance();
 const ability = await facade.getAbilityDetails("static");
 ```
 
 ### 5. **getCompleteCardData(id: string): Promise<{card, moves, abilities}>**
+
 **Método mais poderoso** - Busca carta com TODOS os detalhes em uma única chamada.
 
 **Antes (sem Facade):**
+
 ```typescript
 // Cliente precisa fazer MÚLTIPLAS requisições
 const pokeApi = PokeApiService.getInstance();
@@ -127,14 +144,14 @@ const cardResponse = await pokeApi.getCard(id);
 const card = CardFactory.fromApiResponse(cardResponse, id);
 
 // 2. Buscar cada movimento (4 requisições)
-const movePromises = card.moves.map(name => 
-  pokeApi.fetchMove(name).then(res => MoveFactory.fromApiResponse(res))
+const movePromises = card.moves.map((name) =>
+  pokeApi.fetchMove(name).then((res) => MoveFactory.fromApiResponse(res))
 );
 const moves = await Promise.all(movePromises);
 
 // 3. Buscar cada habilidade (2-3 requisições)
-const abilityPromises = card.abilities.map(name =>
-  pokeApi.fetchAbility(name).then(res => AbilityFactory.fromApiResponse(res))
+const abilityPromises = card.abilities.map((name) =>
+  pokeApi.fetchAbility(name).then((res) => AbilityFactory.fromApiResponse(res))
 );
 const abilities = await Promise.all(abilityPromises);
 
@@ -142,6 +159,7 @@ const abilities = await Promise.all(abilityPromises);
 ```
 
 **Depois (com Facade):**
+
 ```typescript
 const facade = CardFacade.getInstance();
 const { card, moves, abilities } = await facade.getCompleteCardData(id);
@@ -149,9 +167,11 @@ const { card, moves, abilities } = await facade.getCompleteCardData(id);
 ```
 
 ### 6. **getMultipleCards(ids: string[]): Promise<Card[]>**
+
 Busca múltiplas cartas em paralelo.
 
 **Simplificação:**
+
 ```typescript
 const facade = CardFacade.getInstance();
 const cards = await facade.getMultipleCards(["1", "25", "150"]);
@@ -160,10 +180,12 @@ const cards = await facade.getMultipleCards(["1", "25", "150"]);
 ## Impacto no CardController
 
 ### Antes (sem Facade) - 90 linhas
+
 ```typescript
 export class CardController {
   private static pokeApiService = PokeApiService.getInstance();
-  private static cardDistributionService = CardDistributionService.getInstance();
+  private static cardDistributionService =
+    CardDistributionService.getInstance();
 
   static async fetchCardsByUserId(userId: string): Promise<Card[]> {
     try {
@@ -171,8 +193,10 @@ export class CardController {
         throw new Error("ID do usuário inválido");
       }
 
-      const userCardsIds = await this.cardDistributionService.getUserCards(userId);
-      
+      const userCardsIds = await this.cardDistributionService.getUserCards(
+        userId
+      );
+
       if (!userCardsIds || userCardsIds.length === 0) {
         return [];
       }
@@ -212,6 +236,7 @@ export class CardController {
 ```
 
 ### Depois (com Facade) - 35 linhas
+
 ```typescript
 export class CardController {
   private static facade = CardFacade.getInstance();
@@ -247,12 +272,14 @@ export class CardController {
 ## Características do Padrão
 
 ### Elementos Principais
+
 1. **Interface Simplificada**: Métodos intuitivos e de alto nível
 2. **Encapsulamento**: Oculta subsistemas complexos (Services + Factories)
 3. **Coordenação**: Gerencia a ordem e dependências entre componentes
 4. **Singleton**: Única instância compartilhada
 
 ### Vantagens
+
 - ✅ **Simplicidade**: Interface fácil de usar e entender
 - ✅ **Desacoplamento**: Clientes não conhecem subsistemas internos
 - ✅ **Manutenibilidade**: Mudanças internas não afetam clientes
@@ -261,6 +288,7 @@ export class CardController {
 - ✅ **Testes mais fáceis**: Mock apenas a fachada
 
 ### Desvantagens
+
 - ⚠️ Pode se tornar um "god object" se acumular muitas responsabilidades
 - ⚠️ Adiciona uma camada extra de abstração
 
@@ -313,11 +341,11 @@ export class CardController {
 // ❌ SEM FACADE (código complexo e acoplado)
 async function loadCardDetails(cardId: string) {
   const pokeApi = PokeApiService.getInstance();
-  
+
   // Buscar carta
   const cardRes = await pokeApi.getCard(cardId);
   const card = CardFactory.fromApiResponse(cardRes, cardId);
-  
+
   // Buscar movimentos
   const moves = await Promise.all(
     card.moves.map(async (name) => {
@@ -325,7 +353,7 @@ async function loadCardDetails(cardId: string) {
       return MoveFactory.fromApiResponse(res);
     })
   );
-  
+
   // Buscar habilidades
   const abilities = await Promise.all(
     card.abilities.map(async (name) => {
@@ -333,7 +361,7 @@ async function loadCardDetails(cardId: string) {
       return AbilityFactory.fromApiResponse(res);
     })
   );
-  
+
   return { card, moves, abilities };
 }
 
@@ -346,13 +374,13 @@ async function loadCardDetails(cardId: string) {
 
 ## Benefícios Mensuráveis
 
-| Métrica | Sem Facade | Com Facade | Melhoria |
-|---------|------------|------------|----------|
-| Linhas de código (Controller) | ~90 | ~35 | -60% |
-| Imports necessários | 7 | 1 | -86% |
-| Conhecimento de subsistemas | 5 classes | 1 classe | -80% |
-| Complexidade ciclomática | Alta | Baixa | Significativa |
-| Tempo de implementação | Alto | Baixo | Rápido |
+| Métrica                       | Sem Facade | Com Facade | Melhoria      |
+| ----------------------------- | ---------- | ---------- | ------------- |
+| Linhas de código (Controller) | ~90        | ~35        | -60%          |
+| Imports necessários           | 7          | 1          | -86%          |
+| Conhecimento de subsistemas   | 5 classes  | 1 classe   | -80%          |
+| Complexidade ciclomática      | Alta       | Baixa      | Significativa |
+| Tempo de implementação        | Alto       | Baixo      | Rápido        |
 
 ## Integração com Outros Padrões
 
@@ -367,16 +395,18 @@ O Facade trabalha em conjunto com:
 async getCardById(id: string): Promise<Card> {
   // 1. Singleton busca dados
   const response = await this.pokeApiService.getCard(id);
-  
+
   // 2. Factory transforma dados
   return CardFactory.fromApiResponse(response, id);
-  
+
   // 3. Facade retorna resultado pronto
 }
 ```
 
 ## Conclusão
+
 O Facade Pattern é utilizado neste projeto para **simplificar drasticamente** a interação com múltiplos serviços e factories. Ele:
+
 - Reduz a complexidade do código cliente
 - Centraliza operações complexas
 - Desacopla controllers dos detalhes de implementação

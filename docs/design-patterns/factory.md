@@ -1,10 +1,13 @@
 # Factory Pattern
 
 ## Descrição
+
 O **Factory** (ou Factory Method) é um padrão de projeto criacional que fornece uma interface para criar objetos, permitindo que as subclasses ou métodos estáticos decidam qual classe instanciar. Ele encapsula a lógica de criação de objetos complexos.
 
 ## Problema que Resolve
+
 Ao trabalhar com APIs externas ou dados brutos, frequentemente precisamos:
+
 - Transformar dados da API em objetos do domínio da aplicação
 - Aplicar lógica de mapeamento e transformação
 - Lidar com dados opcionais ou malformados
@@ -15,6 +18,7 @@ Ao trabalhar com APIs externas ou dados brutos, frequentemente precisamos:
 ### Classes que Utilizam Factory
 
 #### 1. **CardFactory** (`src/factories/CardFactory.ts`)
+
 ```typescript
 export class CardFactory {
   static fromApiResponse(res: GetSpecificPokemonResponse, id: string): Card {
@@ -58,6 +62,7 @@ export class CardFactory {
 ```
 
 **Responsabilidades:**
+
 - Converte resposta da PokeAPI (`GetSpecificPokemonResponse`) em objeto `Card` do domínio
 - Extrai e organiza estatísticas do Pokémon
 - Mapeia tipos para cores correspondentes
@@ -65,12 +70,14 @@ export class CardFactory {
 - Limita movimentos aos 4 primeiros
 
 **Por que Factory aqui?**
+
 - A resposta da API é complexa e precisa ser transformada
 - Encapsula a lógica de mapeamento de cores de tipos
 - Centraliza a criação de cartas em um único lugar
 - Facilita mudanças futuras no formato da API
 
 #### 2. **MoveFactory** (`src/factories/MoveFactory.ts`)
+
 ```typescript
 export class MoveFactory {
   static fromApiResponse(res: GetMoveResponse): Move {
@@ -80,22 +87,25 @@ export class MoveFactory {
 ```
 
 **Responsabilidades:**
+
 - Converte resposta da API em objeto `Move`
 - Atualmente simples, mas preparado para transformações futuras
 
 **Por que Factory aqui?**
+
 - Mantém consistência com outras factories
 - Permite adicionar lógica de transformação no futuro (ex: tradução, filtros)
 - Desacopla o formato da API do formato interno
 
 #### 3. **AbilityFactory** (`src/factories/AbilityFactory.ts`)
+
 ```typescript
 export class AbillityFactory {
   static fromApiResponse(res: GetAbillityResponse): Ability {
     const name =
       res.names.find((name) => name.language.name === "en")?.name ||
       "Habilidade sem nome";
-    
+
     const description =
       res.effect_entries.find((effect) => effect.language.name === "en")
         ?.effect || "Habilidade sem descrição";
@@ -109,11 +119,13 @@ export class AbillityFactory {
 ```
 
 **Responsabilidades:**
+
 - Extrai o nome da habilidade em inglês de um array de traduções
 - Extrai a descrição em inglês dos efeitos
 - Fornece valores padrão caso dados estejam ausentes
 
 **Por que Factory aqui?**
+
 - A API retorna múltiplos idiomas, precisamos filtrar
 - Encapsula lógica de tratamento de dados ausentes
 - Simplifica o objeto retornado para apenas name e description
@@ -121,11 +133,13 @@ export class AbillityFactory {
 ## Características do Padrão
 
 ### Elementos Principais
+
 1. **Método Estático de Criação**: `static fromApiResponse()`
 2. **Encapsulamento da Lógica**: Transformações complexas ficam dentro da factory
 3. **Tipo de Retorno Consistente**: Sempre retorna objetos do domínio (`Card`, `Move`, `Ability`)
 
 ### Vantagens
+
 - ✅ Separa criação de objetos do código que os utiliza
 - ✅ Centraliza lógica de transformação de dados
 - ✅ Facilita testes (mock das factories)
@@ -133,6 +147,7 @@ export class AbillityFactory {
 - ✅ Simplifica mudanças no formato da API
 
 ### Desvantagens
+
 - ⚠️ Adiciona classes extras ao projeto
 - ⚠️ Pode ser over-engineering para objetos simples
 
@@ -158,14 +173,15 @@ const rawData = await PokeApiService.getInstance().getCard("25");
 const card = CardFactory.fromApiResponse(rawData, "25");
 
 // 3. Aplicação usa objeto limpo e tipado
-console.log(card.name);        // "pikachu"
-console.log(card.types);       // ["electric"]
-console.log(card.typeColors);  // ["#F7D02C"]
+console.log(card.name); // "pikachu"
+console.log(card.types); // ["electric"]
+console.log(card.typeColors); // ["#F7D02C"]
 ```
 
 ## Diferença: Dados da API vs Domínio
 
 ### Resposta da API (complexa)
+
 ```json
 {
   "id": 25,
@@ -180,8 +196,8 @@ console.log(card.typeColors);  // ["#F7D02C"]
     }
   ],
   "stats": [
-    {"base_stat": 35, "stat": {"name": "hp"}},
-    {"base_stat": 55, "stat": {"name": "attack"}},
+    { "base_stat": 35, "stat": { "name": "hp" } },
+    { "base_stat": 55, "stat": { "name": "attack" } }
     // ...
   ],
   "sprites": {
@@ -195,6 +211,7 @@ console.log(card.typeColors);  // ["#F7D02C"]
 ```
 
 ### Objeto do Domínio (simplificado)
+
 ```typescript
 {
   id: 25,
@@ -211,11 +228,11 @@ console.log(card.typeColors);  // ["#F7D02C"]
 
 ## Casos de Uso no Projeto
 
-| Factory | Entrada | Saída | Transformação Principal |
-|---------|---------|-------|-------------------------|
-| `CardFactory` | `GetSpecificPokemonResponse` | `Card` | Extração de stats, mapeamento de cores |
-| `MoveFactory` | `GetMoveResponse` | `Move` | Cast direto (preparado para expansão) |
-| `AbilityFactory` | `GetAbillityResponse` | `Ability` | Filtro de idioma, valores padrão |
+| Factory          | Entrada                      | Saída     | Transformação Principal                |
+| ---------------- | ---------------------------- | --------- | -------------------------------------- |
+| `CardFactory`    | `GetSpecificPokemonResponse` | `Card`    | Extração de stats, mapeamento de cores |
+| `MoveFactory`    | `GetMoveResponse`            | `Move`    | Cast direto (preparado para expansão)  |
+| `AbilityFactory` | `GetAbillityResponse`        | `Ability` | Filtro de idioma, valores padrão       |
 
 ## Integração com Outros Padrões
 
@@ -252,8 +269,9 @@ console.log(pikachu);
 // }
 
 // Buscar habilidade
-const abilityResponse = await PokeApiService.getInstance()
-  .fetchAbility("static");
+const abilityResponse = await PokeApiService.getInstance().fetchAbility(
+  "static"
+);
 const staticAbility = AbilityFactory.fromApiResponse(abilityResponse);
 
 console.log(staticAbility);
@@ -264,4 +282,5 @@ console.log(staticAbility);
 ```
 
 ## Conclusão
+
 O Factory Pattern é utilizado neste projeto para **transformar dados externos** da PokeAPI em **objetos do domínio** bem definidos. Ele mantém o código limpo, facilita manutenção e permite que a aplicação trabalhe com objetos tipados e simplificados, independentemente das mudanças no formato da API externa.
