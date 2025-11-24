@@ -1,11 +1,12 @@
 import type { Card } from "@/types/card";
-import { CardMapper } from "@/mappers/CardMapper";
 import { PokeApiService } from "@/services/PokeApiService";
 import { CardDistributionService } from "@/services/CardDistributionService";
 import type { Move } from "@/types/move";
-import { MoveMapper } from "@/mappers/MoveMapper";
+
 import type { Ability } from "@/types/ability";
-import { AbillityMapper } from "@/mappers/AbilityMapper";
+import { MoveFactory } from "@/factories/MoveFactory";
+import { AbillityFactory } from "@/factories/AbilityFactory";
+import { CardFactory } from "@/factories/CardFactory";
 
 export class CardController {
   private static pokeApiService = PokeApiService.getInstance();
@@ -28,7 +29,7 @@ export class CardController {
 
       const pokemonsData = await this.pokeApiService.fetchCards(userCardsIds);
       return pokemonsData.map((res, idx) =>
-        CardMapper.fromApiResponse(res, String(userCardsIds[idx]))
+        CardFactory.fromApiResponse(res, String(userCardsIds[idx]))
       );
     } catch (error) {
       console.error("Erro ao buscar cartas do usuário:", error);
@@ -47,7 +48,7 @@ export class CardController {
       }
 
       const res = await this.pokeApiService.getCard(id);
-      return CardMapper.fromApiResponse(res, id);
+      return CardFactory.fromApiResponse(res, id);
     } catch (error) {
       console.error(`Erro ao buscar carta ${id}:`, error);
       throw new Error(
@@ -63,7 +64,7 @@ export class CardController {
       }
 
       const res = await this.pokeApiService.fetchMove(id);
-      return MoveMapper.fromApiResponse(res);
+      return MoveFactory.fromApiResponse(res);
     } catch (error) {
       console.error(`Erro ao buscar movimento ${id}:`, error);
       throw new Error(
@@ -81,7 +82,7 @@ export class CardController {
       }
 
       const res = await this.pokeApiService.fetchAbility(id);
-      return AbillityMapper.fromApiResponse(res);
+      return AbillityFactory.fromApiResponse(res);
     } catch (error) {
       console.error(`Erro ao buscar habilidade ${id}:`, error);
       throw new Error(
