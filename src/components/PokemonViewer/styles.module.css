@@ -1,288 +1,286 @@
 /* Main Content */
 .main {
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 2rem 1rem;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
 }
 
 .viewerContent {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
 }
 
 /* Navigation Buttons */
 .navButton {
-	width: 56px;
-	height: 56px;
-	border-radius: 50%;
-	background: rgba(30, 41, 59, 0.8);
-	backdrop-filter: blur(10px);
-	border: 2px solid #475569;
-	color: #f1f5f9;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: all 0.3s ease;
-	flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(10px);
+  border: 2px solid #475569;
+  color: #f1f5f9;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .navButton:hover {
-	background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-	border-color: #fbbf24;
-	transform: scale(1.1);
-	box-shadow: 0 8px 20px rgba(251, 191, 36, 0.4);
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border-color: #fbbf24;
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(251, 191, 36, 0.4);
 }
 
 .navButton svg {
-	width: 28px;
-	height: 28px;
+  width: 28px;
+  height: 28px;
 }
 
 /* Pokemon Card */
 .card {
-	width: 100%;
-	max-width: 450px;
-	background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-	border-radius: 20px;
-	border: 3px solid;
-	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(251, 191, 36, 0.2);
-	transition: all 0.3s ease;
-	overflow: hidden;
+  width: 100%;
+  max-width: 450px;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border-radius: 20px;
+  border: 3px solid;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(251, 191, 36, 0.2);
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .card:hover {
-	transform: scale(1.05);
-	box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(251, 191, 36, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(251, 191, 36, 0.3);
 }
 
 .cardContent {
-	padding: 2rem;
-	aspect-ratio: 3 / 4;
-	display: flex;
-	flex-direction: column;
+  padding: 2rem;
+  aspect-ratio: 3 / 4;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Card Header */
 .cardHeader {
-	display: flex;
-	align-items: flex-start;
-	justify-content: space-between;
-	margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
 }
 
 .headerContent {
-	margin: 0;
+  margin: 0;
 }
 
 .pokemonName {
-	font-size: 2rem;
-	font-weight: bold;
-	color: #f1f5f9;
-	margin: 0;
-	padding: 0;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #f1f5f9;
+  margin: 0;
+  padding: 0;
 }
 
 .pokemonType {
-	font-size: 0.875rem;
-	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
-
 
 /* Card Image */
 .imageContainer {
-	position: relative;
-	border-radius: 12px;
-	overflow: hidden;
-	border: 2px solid #475569;
-	background: #0f172a;
-	margin-bottom: 1.5rem;
-	width: 100%;
-	max-height: 10rem;
-	display: flex;
-	flex-direction: column;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #475569;
+  background: #0f172a;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-height: 10rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .pokemonImage {
-	width: 100%;
-	height: 100%;
-	object-fit: contain;
-	position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: relative;
 }
 
 .statsContent {
-	display: flex;
-	justify-content: center;
-	margin-bottom: 1.5rem;
-	flex-wrap: wrap;
-	gap: 0.5rem;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .statBadge {
-	margin-top: auto;
-	padding: 0.375rem 0.75rem;
-	border-radius: 12px;
-	font-size: 0.95rem;
-	font-weight: 600;
-	color: white;
-	text-transform: capitalize;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-	text-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  margin-top: auto;
+  padding: 0.375rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
 }
 
 .statBadge > span {
-	margin: 0 0.25rem;
+  margin: 0 0.25rem;
 }
 
 /* Card Info */
 .cardInfo {
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .cardAttack {
-	background: rgba(251, 191, 36, 0.1);
-	border-radius: 12px;
-	padding: 1rem 0;
-	border: 1px solid rgba(251, 191, 36, 0.2);
-	display: flex;
-	align-items: center;
-	height: 7.375rem;
+  background: rgba(251, 191, 36, 0.1);
+  border-radius: 12px;
+  padding: 1rem 0;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  display: flex;
+  align-items: center;
+  height: 7.375rem;
 }
 
 .attackBox {
-	flex: 1;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .attackHeader {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 .attackName {
-	font-weight: 600;
-	color: #f1f5f9;
-	font-size: 1rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  font-size: 1rem;
 }
 
 .damageBadge {
-	padding: 0.25rem 0.75rem;
-	border-radius: 20px;
-	font-size: 0.8rem;
-	font-weight: bold;
-	color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
 }
 
 .attackDescription {
-	font-size: 0.875rem;
-	color: #94a3b8;
-	line-height: 1.5;
-	flex: 1;
-	padding-right: 0.5rem;
+  font-size: 0.875rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  flex: 1;
+  padding-right: 0.5rem;
 
-	min-height: 0;
-	overflow-y: auto;
-	scrollbar-width: thin;
-	scrollbar-color: #888 #2f3a4a;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #2f3a4a;
 }
 
 .rarityBox {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	background: rgba(30, 41, 59, 0.5);
-	border-radius: 8px;
-	padding: 0.75rem 1rem;
-	border: 1px solid #475569;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #475569;
 }
 
 .rarityLabel {
-	font-size: 0.875rem;
-	font-weight: 500;
-	color: #94a3b8;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #94a3b8;
 }
 
 .rarityValue {
-	font-weight: 600;
-	color: #f1f5f9;
+  font-weight: 600;
+  color: #f1f5f9;
 }
 
 /* Indicators */
 .indicators {
-	display: flex;
-	justify-content: center;
-	gap: 0.5rem;
-	margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
 }
 
 .indicator {
-	width: 8px;
-	height: 8px;
-	border-radius: 4px;
-	background: rgba(148, 163, 184, 0.3);
-	border: none;
-	cursor: pointer;
-	transition: all 0.3s ease;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(148, 163, 184, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .indicator:hover {
-	background: rgba(148, 163, 184, 0.5);
+  background: rgba(148, 163, 184, 0.5);
 }
 
 .indicatorActive {
-	width: 32px;
-	background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
-	box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
+  width: 32px;
+  background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
 }
 
 .buttonArrow {
-	background-color: transparent;
-	padding: 0 0.5rem;
-	margin: 0.5rem;
-	flex-shrink: 0;
-	transition: none;
-	border: none;
+  background-color: transparent;
+  padding: 0 0.5rem;
+  margin: 0.5rem;
+  flex-shrink: 0;
+  transition: none;
+  border: none;
 }
 
 .buttonArrow:hover {
-	border: none;
+  border: none;
 }
 
 .buttonArrow:focus {
-	outline: none;
+  outline: none;
 }
 
 .typesContent {
-	display: flex;
-	gap: 0.5rem;
-	justify-content: center;
-	position: absolute;
-	right: 5px;
-	bottom: 5px;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
 }
 
 .typeBadge {
-	padding: 0.235rem 0.65rem;
-	border-radius: 12px;
-	font-size: 0.95rem;
-	font-weight: 600;
-	color: white;
-	text-transform: capitalize;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-	text-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  padding: 0.235rem 0.65rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
 }
 
 .loadingContainer {
@@ -304,8 +302,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .errorContainer {
@@ -343,4 +345,35 @@
   color: #e74c3c;
   font-size: 0.9rem;
   text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.errorBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.retryButton {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.retryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+}
+
+.retryButton:active {
+  transform: translateY(0);
 }
