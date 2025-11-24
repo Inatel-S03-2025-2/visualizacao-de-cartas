@@ -37,7 +37,11 @@ export function PokemonViewer() {
       setViewAbilityIndex(0);
       setPokemonData(pokemon);
     } catch (err) {
-      setPokemonError("Erro ao buscar dados do Pokémon.");
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "Erro ao carregar Pokémon. Tente novamente.";
+      setPokemonError(errorMessage);
       setPokemonData(undefined);
     } finally {
       setPokemonLoading(false);
@@ -51,11 +55,13 @@ export function PokemonViewer() {
 
   const fetchMoves = async (moveName?: string) => {
     const response = await CardController.getMoveByMoveId(moveName || "");
-    return response
+    return response;
   };
 
-   const fetchAbility = async (abilityName?: string) => {
-    const response = await CardController.getAbilityByAbilityId(abilityName || "");
+  const fetchAbility = async (abilityName?: string) => {
+    const response = await CardController.getAbilityByAbilityId(
+      abilityName || ""
+    );
     return response;
   };
 
@@ -99,11 +105,10 @@ export function PokemonViewer() {
     setViewAbilityIndex((prev) => prev + 1);
   };
 
-
   useEffect(() => {
     if (!pokemonData) return;
     const abilityName = pokemonData.abilities?.[viewAbilityIndex];
-    
+
     if (!abilityName) {
       setAbilityData(null);
       setAbilityError(null);
@@ -119,9 +124,10 @@ export function PokemonViewer() {
         const data = await fetchAbility(abilityName);
         if (!cancelled) setAbilityData(data);
       } catch (err) {
-        
-        if (!cancelled){
-          setAbilityError("Erro ao buscar habilidade:");
+        if (!cancelled) {
+          const errorMessage =
+            err instanceof Error ? err.message : "Erro ao carregar habilidade";
+          setAbilityError(errorMessage);
           setAbilityData(null);
         }
       } finally {
@@ -139,7 +145,7 @@ export function PokemonViewer() {
   useEffect(() => {
     if (!pokemonData) return;
     const moveName = pokemonData.moves?.[viewMoveIndex];
-    
+
     if (!moveName) {
       setAbilityError(null);
       setMoveData(null);
@@ -155,9 +161,11 @@ export function PokemonViewer() {
         const data = await fetchMoves(moveName);
         if (!cancelled) setMoveData(data);
       } catch (err) {
-        if (!cancelled){ 
-          setMoveError("Erro ao buscar move");
-          setMoveData(null)
+        if (!cancelled) {
+          const errorMessage =
+            err instanceof Error ? err.message : "Erro ao carregar movimento";
+          setMoveError(errorMessage);
+          setMoveData(null);
         }
       } finally {
         if (!cancelled) setMoveLoading(false);
@@ -197,7 +205,7 @@ export function PokemonViewer() {
   }
 
   if (!pokemonData) return null;
-  
+
   return (
     <>
       <div className={styles.viewerContent}>
@@ -217,9 +225,7 @@ export function PokemonViewer() {
         <div
           className={styles.card}
           style={{
-            borderColor:
-            getTypeColor(pokemonData.types[0])
-
+            borderColor: getTypeColor(pokemonData.types[0]),
           }}
         >
           <div className={styles.cardContent}>
@@ -229,11 +235,10 @@ export function PokemonViewer() {
                   {pokemonData.name.charAt(0).toLocaleUpperCase() +
                     pokemonData.name.slice(1)}
                 </h2>
-    
               </div>
               <div
                 className={styles.statBadge}
-                style={{ border: "2px solid #ff5959", color: '#ff8989'}}  
+                style={{ border: "2px solid #ff5959", color: "#ff8989" }}
               >
                 HP {pokemonData.hp}
               </div>
@@ -241,66 +246,64 @@ export function PokemonViewer() {
 
             <div className={styles.imageContainer}>
               <img
-                src={
-                  pokemonData.image || ""
-                }
+                src={pokemonData.image || ""}
                 alt={pokemonData.name}
                 className={styles.pokemonImage}
               />
               <div
-                  className={styles.pokemonType}
-                  style={{
-                    color:
-                    getTypeColor(pokemonData.types[0])
-                  }}
-                >
-                  <div className={styles.typesContent}>
-                    {pokemonData.types.map((type, index) => (
+                className={styles.pokemonType}
+                style={{
+                  color: getTypeColor(pokemonData.types[0]),
+                }}
+              >
+                <div className={styles.typesContent}>
+                  {pokemonData.types.map((type, index) => (
                     <span
                       key={type}
                       className={styles.typeBadge}
-                      style={{ backgroundColor: getTypeColor(pokemonData.types[index]) }}
+                      style={{
+                        backgroundColor: getTypeColor(pokemonData.types[index]),
+                      }}
                     >
                       {type}
                     </span>
-                    ))}
-                  </div>
+                  ))}
                 </div>
-
+              </div>
             </div>
 
             <div className={styles.statsContent}>
-              <div 
-                className={styles.statBadge} 
-                style={{ border: "2px solid #f07f2f", color: '#f7ab79'}}
+              <div
+                className={styles.statBadge}
+                style={{ border: "2px solid #f07f2f", color: "#f7ab79" }}
               >
                 <span>ATK</span>
                 <span>{pokemonData.attack}</span>
               </div>
-              <div 
-                className={styles.statBadge} 
-                style={{ border: "2px solid #f8d032", color: '#f8e17b'}}
+              <div
+                className={styles.statBadge}
+                style={{ border: "2px solid #f8d032", color: "#f8e17b" }}
               >
                 <span>DEF</span>
                 <span>{pokemonData.defense}</span>
               </div>
-              <div 
-                className={styles.statBadge} 
-                style={{ border: "2px solid #6890f0", color: '#a0b6f0'}}
+              <div
+                className={styles.statBadge}
+                style={{ border: "2px solid #6890f0", color: "#a0b6f0" }}
               >
                 <span>Sp. ATK</span>
                 <span>{pokemonData.specialAttack}</span>
               </div>
-              <div 
-                className={styles.statBadge} 
-                style={{ border: "2px solid #78c84f", color: '#a7dc8e'}}
+              <div
+                className={styles.statBadge}
+                style={{ border: "2px solid #78c84f", color: "#a7dc8e" }}
               >
                 <span>Sp. DEF</span>
                 <span>{pokemonData.specialDefense}</span>
               </div>
-              <div 
-                className={styles.statBadge} 
-                style={{ border: "2px solid #f55988", color: '#f893b1'}}
+              <div
+                className={styles.statBadge}
+                style={{ border: "2px solid #f55988", color: "#f893b1" }}
               >
                 <span>SPD</span>
                 <span>{pokemonData.speed}</span>
@@ -314,23 +317,36 @@ export function PokemonViewer() {
                   <ChevronsLeft />
                 </button>
                 <div className={styles.attackBox}>
-                  {moveLoading && <p className={styles.loadingText}>Carregando ataque...</p>}
-                  {moveError && <p className={styles.errorText}>Erro: {moveError}</p>}
+                  {moveLoading && (
+                    <p className={styles.loadingText}>Carregando ataque...</p>
+                  )}
+                  {moveError && (
+                    <div className={styles.errorBox}>
+                      <p className={styles.errorText}>{moveError}</p>
+                      <button
+                        className={styles.retryButton}
+                        onClick={() => setViewMoveIndex(viewMoveIndex)}
+                      >
+                        Tentar novamente
+                      </button>
+                    </div>
+                  )}
                   {!moveLoading && !moveError && (
                     <>
                       <div className={styles.attackHeader}>
                         <span className={styles.attackName}>
-                          {(pokemonData.moves?.[viewMoveIndex] || '')
+                          {(pokemonData.moves?.[viewMoveIndex] || "")
                             .charAt(0)
                             .toLocaleUpperCase() +
-                            (pokemonData.moves?.[viewMoveIndex].slice(1) || '')}
+                            (pokemonData.moves?.[viewMoveIndex].slice(1) || "")}
                         </span>
                         {moveData?.power && (
                           <span
                             className={styles.damageBadge}
                             style={{
-                              backgroundColor:
-                                getTypeColor(pokemonData.types[0])
+                              backgroundColor: getTypeColor(
+                                pokemonData.types[0]
+                              ),
                             }}
                           >
                             Power {moveData?.power}
@@ -344,27 +360,49 @@ export function PokemonViewer() {
                   )}
                 </div>
 
-                <button className={styles.buttonArrow} onClick={handleAdvanceMove}>
+                <button
+                  className={styles.buttonArrow}
+                  onClick={handleAdvanceMove}
+                >
                   <ChevronsRight />
                 </button>
               </div>
 
               <span className={styles.cardInfoAbilityName}>Abilities</span>
               <div className={styles.cardAttack}>
-                <button className={styles.buttonArrow} onClick={handleBackAbility}>
+                <button
+                  className={styles.buttonArrow}
+                  onClick={handleBackAbility}
+                >
                   <ChevronsLeft />
                 </button>
                 <div className={styles.attackBox}>
-                  {abilityLoading && <p className={styles.loadingText}>Carregando habilidade...</p>}
-                  {abilityError && <p className={styles.errorText}>Erro: {abilityError}</p>}
+                  {abilityLoading && (
+                    <p className={styles.loadingText}>
+                      Carregando habilidade...
+                    </p>
+                  )}
+                  {abilityError && (
+                    <div className={styles.errorBox}>
+                      <p className={styles.errorText}>{abilityError}</p>
+                      <button
+                        className={styles.retryButton}
+                        onClick={() => setViewAbilityIndex(viewAbilityIndex)}
+                      >
+                        Tentar novamente
+                      </button>
+                    </div>
+                  )}
                   {!abilityLoading && !abilityError && (
                     <>
                       <div className={styles.attackHeader}>
                         <span className={styles.attackName}>
-                          {(pokemonData.abilities?.[viewAbilityIndex] || '')
+                          {(pokemonData.abilities?.[viewAbilityIndex] || "")
                             .charAt(0)
                             .toLocaleUpperCase() +
-                            (pokemonData.abilities?.[viewAbilityIndex].slice(1) || '')}
+                            (pokemonData.abilities?.[viewAbilityIndex].slice(
+                              1
+                            ) || "")}
                         </span>
                       </div>
                       <p className={styles.attackDescription}>
@@ -374,7 +412,10 @@ export function PokemonViewer() {
                   )}
                 </div>
 
-                <button className={styles.buttonArrow} onClick={handleAdvanceAbility}>
+                <button
+                  className={styles.buttonArrow}
+                  onClick={handleAdvanceAbility}
+                >
                   <ChevronsRight />
                 </button>
               </div>
