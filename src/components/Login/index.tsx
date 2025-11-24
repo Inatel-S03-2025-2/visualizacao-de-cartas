@@ -24,8 +24,12 @@ export function Login({ onLogin }: LoginProps) {
     try {
       await onLogin(username, password);
     } catch (err) {
-      setError("Erro ao fazer login. Tente novamente.");
-      console.error(err);
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "Erro ao fazer login. Verifique suas credenciais e tente novamente.";
+      setError(errorMessage);
+      console.error("Erro no login:", err);
     } finally {
       setIsLoading(false);
     }
