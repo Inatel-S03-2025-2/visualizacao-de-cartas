@@ -9,12 +9,14 @@ Sistema de visualização de cartas Pokémon desenvolvido como parte do Tema 4 d
 ### 🎯 Status de Implementação
 
 **Implementado:**
+
 - Login (autenticação mockada)
 - Dashboard com visualização de cartas
 - Cards com informações (tipos, stats, geração, shiny)
 - Botões de Batalha e Trocas (UI apenas)
 
 **Pendente:**
+
 - Funcionalidades de Batalha e Trocas
 - Página de Perfil do Jogador
 - Página de Detalhes da Carta
@@ -26,6 +28,7 @@ Sistema de visualização de cartas Pokémon desenvolvido como parte do Tema 4 d
 #### Entidades Principais:
 
 **Player (Jogador)**
+
 - `name`: Nome do jogador
 - `id`: Identificador único
 - `password`: Senha de acesso
@@ -36,6 +39,7 @@ Sistema de visualização de cartas Pokémon desenvolvido como parte do Tema 4 d
   - `filterCards(filters)`: Aplica filtros na coleção
 
 **Card (Carta)**
+
 - `name`: Nome do Pokémon
 - `id`: Identificador único da carta
 - `types[]`: Tipos do Pokémon (Fogo, Água, etc.)
@@ -61,7 +65,17 @@ Sistema de visualização de cartas Pokémon desenvolvido como parte do Tema 4 d
 5. **Visualizar Perfil**: Informações do jogador
 6. **Ver Detalhes**: Detalhes completos de uma carta
 
-Veja o diagrama completo em `docs/use-case-diagram.png`
+Veja o diagrama completo em `docs/use-case-diagram.jpeg`
+
+### 🎨 Design Patterns
+
+O projeto implementa diversos padrões de projeto para garantir código limpo e manutenível:
+
+- **Singleton**: Gerenciamento de cache e instâncias únicas ([documentação](docs/design-patterns/singleton.md))
+- **Factory**: Criação de cartas, habilidades e movimentos ([documentação](docs/design-patterns/factory.md))
+- **Facade**: Simplificação de operações complexas com a API ([documentação](docs/design-patterns/facade.md))
+
+Para mais detalhes sobre a implementação de cada padrão, consulte a [documentação de design patterns](docs/design-patterns/).
 
 ### 🌐 Integração Futura
 
@@ -72,9 +86,13 @@ Veja o diagrama completo em `docs/use-case-diagram.png`
 ```
 visualizacao-de-cartas/
 ├── docs/
-│   ├── class-diagram.png          # Diagrama de classes UML
-│   ├── use-case-diagram.png       # Diagrama de casos de uso
-│   └── UML projeto S03 V4.drawio  # Arquivo fonte dos diagramas
+│   ├── design-patterns/          # Documentação dos padrões de projeto
+│   │   ├── singleton.md          # Padrão Singleton
+│   │   ├── factory.md            # Padrão Factory
+│   │   └── facade.md             # Padrão Facade
+│   ├── docs-history/             # Histórico de versões da documentação
+│   ├── class-diagram.png         # Diagrama de classes UML
+│   └── use-case-diagram.jpeg     # Diagrama de casos de uso
 ├── src/
 │   ├── components/                # Componentes reutilizáveis
 │   │   ├── BattleButton/         # Botão de batalha
@@ -95,6 +113,10 @@ visualizacao-de-cartas/
 │   ├── hooks/                    # Hooks customizados (useAuth)
 │   ├── types/                    # Definições de tipos TypeScript
 │   ├── data/                     # Camada de dados (mockPokemons)
+│   ├── factories/                # Factories (Card, Ability, Move)
+│   ├── facades/                  # Facades (CardFacade)
+│   ├── services/                 # Serviços (API, Cache, Auth)
+│   ├── controllers/              # Controllers (Auth, Card)
 │   └── assets/                   # Recursos estáticos
 ├── index.html
 ├── package.json
@@ -120,6 +142,7 @@ Acesse `http://localhost:5173` e faça login com qualquer usuário.
 ### 👥 Equipe 8
 
 **Membros:**
+
 - Douglas Hideaki de Almeida Otani
 - João Victor Godoy da Silva
 - João Victor Siécola Souza
