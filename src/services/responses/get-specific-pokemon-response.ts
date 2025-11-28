@@ -23,6 +23,9 @@ export interface GetSpecificPokemonResponse {
       name: string;
     };
   }[];
+  cries: {
+    latest: string;
+  };
   sprites: {
     other: {
       "official-artwork": {

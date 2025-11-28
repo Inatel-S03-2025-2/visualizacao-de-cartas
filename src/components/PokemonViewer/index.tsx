@@ -38,6 +38,7 @@ export function PokemonViewer() {
     setPokemonError(null);
     try {
       const pokemon = await CardController.getCardById(id);
+      console.log(pokemon.cries);
       setViewMoveIndex(0);
       setViewAbilityIndex(0);
       setPokemonData(pokemon);
@@ -218,6 +219,11 @@ export function PokemonViewer() {
       cancelled = true;
     };
   }, [pokemonData, viewMoveIndex]);
+
+  function playSound(src: string) {
+    const audio = new Audio(src);
+    audio.play();
+  }
 
   if (pokemonLoading) {
     return (
@@ -463,6 +469,9 @@ export function PokemonViewer() {
                   <ChevronsRight />
                 </button>
               </div>
+              <button onClick={() => playSound(pokemonData.cries)}>
+                🔊 Som
+              </button>
             </div>
           </div>
         </div>

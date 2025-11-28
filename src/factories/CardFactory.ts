@@ -27,6 +27,7 @@ export class CardFactory {
       moves: res.moves.slice(0, 4).map((m) => m.move.name),
       damage: stats["attack"],
       abilities: res.abilities.map((a) => a.ability.name),
+      cries: res.cries.latest,
     };
   }
 

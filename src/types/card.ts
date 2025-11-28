@@ -18,8 +18,5 @@ export interface Card {
   moves?: string[];
   damage?: number;
   abilities?: string[];
+  cries: string;
 }
-
-
-
-
