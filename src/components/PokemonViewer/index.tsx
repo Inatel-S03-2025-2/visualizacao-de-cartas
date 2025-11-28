@@ -1,12 +1,14 @@
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import { typeColor } from "@/consts/type-color";
 import type { Card } from "@/types/card";
 import { ChevronsLeft, ChevronsRight } from "lucide-react";
 import { CardController } from "@/controllers/CardController";
+import { CardDistributionService } from "@/services/CardDistributionService";
 import type { Move } from "@/types/move";
 import type { Ability } from "@/types/ability";
+import { useAuth } from "@/hooks/useAuth";
 
 type Params = {
   id: string;
@@ -14,6 +16,8 @@ type Params = {
 
 export function PokemonViewer() {
   const params = useParams<Params>();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [pokemonData, setPokemonData] = useState<Card>();
   const [moveData, setMoveData] = useState<Move | null>(null);
   const [viewMoveIndex, setViewMoveIndex] = useState<number>(0);
@@ -25,6 +29,7 @@ export function PokemonViewer() {
   const [moveError, setMoveError] = useState<string | null>(null);
   const [abilityLoading, setAbilityLoading] = useState<boolean>(false);
   const [abilityError, setAbilityError] = useState<string | null>(null);
+  const [cardIds, setCardIds] = useState<number[]>([]);
 
   const fetchData = async (id: string) => {
     if (!id) return;
@@ -69,6 +74,19 @@ export function PokemonViewer() {
     fetchData(params.id || "");
   }, [params.id]);
 
+  useEffect(() => {
+    const loadCardIds = async () => {
+      try {
+        const service = CardDistributionService.getInstance();
+        const ids = await service.getUserCards(user?.id || "user-1");
+        setCardIds(ids);
+      } catch (error) {
+        console.error("Erro ao carregar IDs das cartas:", error);
+      }
+    };
+    loadCardIds();
+  }, [user]);
+
   const handleBackMove = () => {
     if (viewMoveIndex == 0) {
       setViewMoveIndex(2);
@@ -103,6 +121,28 @@ export function PokemonViewer() {
     }
 
     setViewAbilityIndex((prev) => prev + 1);
+  };
+
+  const handlePreviousPokemon = () => {
+    const currentId = Number(params.id);
+    const currentIndex = cardIds.indexOf(currentId);
+
+    if (currentIndex === -1 || cardIds.length === 0) return;
+
+    const previousIndex =
+      currentIndex === 0 ? cardIds.length - 1 : currentIndex - 1;
+    navigate(`/dashboard/cards/detail/${cardIds[previousIndex]}`);
+  };
+
+  const handleNextPokemon = () => {
+    const currentId = Number(params.id);
+    const currentIndex = cardIds.indexOf(currentId);
+
+    if (currentIndex === -1 || cardIds.length === 0) return;
+
+    const nextIndex =
+      currentIndex === cardIds.length - 1 ? 0 : currentIndex + 1;
+    navigate(`/dashboard/cards/detail/${cardIds[nextIndex]}`);
   };
 
   useEffect(() => {
@@ -209,7 +249,11 @@ export function PokemonViewer() {
   return (
     <>
       <div className={styles.viewerContent}>
-        <button className={styles.navButton}>
+        <button
+          className={styles.navButton}
+          onClick={handlePreviousPokemon}
+          disabled={cardIds.length === 0}
+        >
           <svg
             width="24"
             height="24"
@@ -423,7 +467,11 @@ export function PokemonViewer() {
           </div>
         </div>
 
-        <button className={styles.navButton}>
+        <button
+          className={styles.navButton}
+          onClick={handleNextPokemon}
+          disabled={cardIds.length === 0}
+        >
           <svg
             width="24"
             height="24"
